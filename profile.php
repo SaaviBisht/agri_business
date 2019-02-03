@@ -1,42 +1,36 @@
 <?php
-require_once 'config.php';
+require_once 'class/users.php';
 session_start();
-$email = $_SESSION['email'];
-$data = mysqli_query($con,"SELECT * FROM admin WHERE email = '$email'");
-$row = mysqli_fetch_assoc($data);
+if(!$_SESSION['id'])
+{
+	header("location:index.php");
+}
+$email = $_SESSION['id'];
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <title>Admin Profile</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>Profile</title>
 </head>
-<body>
-
-<div class="container">
-  <h2>Admin Profile Details</h2>
-  <p></p>            
-  <table class="table">
-    <thead>
-      <tr>
-        <th>id</th>
-        <th>Name</th>
-        <th>Email</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><?php echo $row['id'];?></td>
-        <td><?php echo $row['name'];?></td>
-        <td><?php echo $row['email'];?></td>
-      </tr>
-     </tbody>
-  </table>
-</div>
-
+<body bgcolor="#80ffff">
+<fieldset>
+<legend>Welcome</legend>
+<center><h1>Your Profile</h1></center>
+<?php
+$data = mysqli_query($con,"SELECT * FROM users WHERE email = '$email'");
+$row = mysqli_fetch_assoc($data);
+?>
+<tr>
+	<td><b>Id:-&nbsp<?php echo $row['id'];?></b></td><br/><br>
+	<td><b>Name:-&nbsp<?php echo $row['name'];?></b></td><br/><br>
+	<td><b>Email:-&nbsp<?php echo $row['email'];?></b></td><br/><br>
+	<td><b>Contact:-&nbsp<?php echo $row['contact'];?></b></td><br/><br>
+	<td><b>City:-&nbsp<?php echo $row['city'];?></b></td><br/><br>
+	<td><b>Join Date:-&nbsp<?php echo $row['join_date'];?></b></td><br/><br>
+	<a href = "changepass.php">change password</a>
+	<a href = "logout.php">logout</a>
+    <a href = "edit.php">EDIT YOUR FIELDS</a>
+</tr>	
+</fieldset>
 </body>
 </html>
